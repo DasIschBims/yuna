@@ -4,7 +4,6 @@
   "description": "",
   "main": "index.ts",
   "scripts": {
-    "setup": "npx dalai llama install 7B",
     "start": "ts-node src/index.ts",
     "start:dev": "ts-node-dev src/index.ts",
     "start:prod": "node dist/index.js",
@@ -19,9 +18,7 @@
     "discord-bot",
     "discord.js",
     "discord",
-    "typescript",
-    "ai",
-    "chatbot"
+    "typescript"
   ],
   "author": "DasIschBims",
   "license": "ISC",
