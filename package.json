@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.ts",
   "scripts": {
-    "start": "ts-node src/Index.ts",
-    "start:dev": "ts-node-dev src/Index.ts",
+    "setup": "npx dalai llama install 7B",
+    "start": "ts-node src/index.ts",
+    "start:dev": "ts-node-dev src/index.ts",
     "start:prod": "node dist/index.js",
     "build": "tsc",
     "watch": "tsc -w"
