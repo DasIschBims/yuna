@@ -8,7 +8,7 @@ const brandColors: ColorResolvable[] = [
     "#fdfcdc",
     "#fed9b7",
     "#f07167"
-]
+];
 // never get the same color twice in a row
 let lastColor: ColorResolvable = "#000000";
 

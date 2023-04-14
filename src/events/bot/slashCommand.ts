@@ -14,4 +14,4 @@ export default new Event({
 
         command.run({ client, interaction, options });
     },
-})
+});

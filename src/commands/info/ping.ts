@@ -4,7 +4,7 @@ import {getRandomColor} from "../../utils/colors/brandColors";
 
 export default new Command({
     name: "ping",
-    description: "Displays the bot's latency",
+    description: "Displays the bots latency",
     type: ApplicationCommandType.ChatInput,
     run: async ({ interaction }) => {
         await interaction.reply({

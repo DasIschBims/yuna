@@ -47,7 +47,7 @@ export class ExtendedClient extends Client {
 
     private registerCommands(commands: Array<ApplicationCommandDataResolvable>){
         try {
-            this.application?.commands.set(commands)
+            this.application?.commands.set(commands);
         } catch (error) {
             Logger.logError(`An error occurred while trying to register the slash commands: \n${error}`, "Slash Commands");
         }
@@ -62,7 +62,7 @@ export class ExtendedClient extends Client {
             fs.readdirSync(commandsPath + `/${local}/`).filter(fileCondition).forEach(async fileName => {
 
                 const command: CommandType = (await import(`../commands/${local}/${fileName}`))?.default;
-                const { name, buttons, selects, modals } = command
+                const { name, buttons, selects, modals } = command;
 
                 if (name) {
                     this.commands.set(name, command);
@@ -75,15 +75,13 @@ export class ExtendedClient extends Client {
             });
         });
 
-        this.on("ready", () => this.registerCommands(slashCommands))
+        this.on("ready", () => this.registerCommands(slashCommands));
     }
     private registerEvents(){
         const eventsPath = path.join(__dirname, "..", "events");
 
         fs.readdirSync(eventsPath).forEach(local => {
-            const commandPath = path.join(__dirname, "..", "events", local) as string;
-
-            fs.readdirSync(commandPath).filter(fileCondition)
+            fs.readdirSync(path.join(__dirname, "..", "events", local)).filter(fileCondition)
                 .forEach(async fileName => {
                     const { name, once, run }: EventType<keyof ClientEvents> = (await import(`../events/${local}/${fileName}`))?.default as EventType<keyof ClientEvents>;
                     if (!name || !run) return;
@@ -94,8 +92,7 @@ export class ExtendedClient extends Client {
                     } catch (error) {
                         Logger.logError(`An error occurred while trying to register the event ${name}: \n${error}`, "Events");
                     }
-                })
-
-        })
+                });
+        });
     }
 }
