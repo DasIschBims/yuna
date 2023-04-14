@@ -1,16 +1,14 @@
 import {ExtendedClient} from "./structs/client"
 import {Logger} from "./utils/logging/logger";
-import {setBotActivity} from "./utils/activity/setBotActivity";
-import {ActivityType} from "discord-api-types/v10";
+import {config} from "dotenv";
 
-require("dotenv").config();
+config();
 
 export const client = new ExtendedClient();
 
 try {
-     client.start().then(() => {
-         setBotActivity({text: "the source code.", type: ActivityType.Watching, status: "online"})
-     });
-} catch (e) {
-    Logger.logError(`${e}`, "Startup")
+    Logger.log("Starting up...", "Startup");
+    client.start();
+} catch (error) {
+    Logger.logError(`${error}`, "Startup");
 }

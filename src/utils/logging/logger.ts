@@ -24,7 +24,7 @@ export class Logger {
     }
 
     static printLogo() {
-        let logoGradient = gradient([
+        const logoGradient = gradient([
             {color: '#0081a7', pos: 0.1},
             {color: '#00afb9', pos: 0.3},
             {color: '#fdfcdc', pos: 0.5},

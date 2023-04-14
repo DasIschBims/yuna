@@ -10,8 +10,8 @@ export default new Event({
         const command = client.commands.get(interaction.commandName);
         if (!command) return;
 
-        const options = interaction.options as CommandInteractionOptionResolver
+        const options = interaction.options as CommandInteractionOptionResolver;
 
-        command.run({ client, interaction, options })
+        command.run({ client, interaction, options });
     },
 })

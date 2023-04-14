@@ -11,7 +11,6 @@ import {CommandType, ComponentsButton, ComponentsModal, ComponentsSelect} from "
 import {EventType} from "../types/event";
 import * as fs from "fs";
 import path from "path";
-import {client} from "../index";
 
 const fileCondition = (fileName: string) => fileName.endsWith(".ts");
 
@@ -20,6 +19,7 @@ export class ExtendedClient extends Client {
     public buttons: ComponentsButton = new Collection();
     public selects: ComponentsSelect = new Collection();
     public modals: ComponentsModal = new Collection();
+    public events: Collection<string, EventType<keyof ClientEvents>> = new Collection();
 
     constructor() {
         super({
@@ -42,19 +42,15 @@ export class ExtendedClient extends Client {
         } catch (error) {
             Logger.logError(error, "Startup");
             process.exit(1);
-        } finally {
-            Logger.logSuccess("Successfully logged in as " + client.user?.tag, "Startup");
         }
     }
 
     private registerCommands(commands: Array<ApplicationCommandDataResolvable>){
-        this.application?.commands.set(commands)
-            .then(() => {
-                Logger.log(`Successfully registered ${commands.length} slash commands`, "Slash Commands");
-            })
-            .catch(error => {
-                Logger.logError(`An error occurred while trying to register the slash commands: \n${error}`, "Slash Commands");
-            })
+        try {
+            this.application?.commands.set(commands)
+        } catch (error) {
+            Logger.logError(`An error occurred while trying to register the slash commands: \n${error}`, "Slash Commands");
+        }
     }
     private registerModules(){
         const slashCommands: Array<ApplicationCommandDataResolvable> = [];
@@ -85,14 +81,16 @@ export class ExtendedClient extends Client {
         const eventsPath = path.join(__dirname, "..", "events");
 
         fs.readdirSync(eventsPath).forEach(local => {
-            let commandPath = path.join(__dirname, "..", "events", local);
+            const commandPath = path.join(__dirname, "..", "events", local) as string;
 
             fs.readdirSync(commandPath).filter(fileCondition)
                 .forEach(async fileName => {
-                    const { name, once, run }: EventType<keyof ClientEvents> = (await import(`../events/${local}/${fileName}`))?.default;
+                    const { name, once, run }: EventType<keyof ClientEvents> = (await import(`../events/${local}/${fileName}`))?.default as EventType<keyof ClientEvents>;
+                    if (!name || !run) return;
+
                     try {
                         if (name) (once) ? this.once(name, run) : this.on(name, run);
-                        Logger.log(`Successfully registered the event ${name}`, "Events");
+                        this.events.set(name, { name, once, run });
                     } catch (error) {
                         Logger.logError(`An error occurred while trying to register the event ${name}: \n${error}`, "Events");
                     }
