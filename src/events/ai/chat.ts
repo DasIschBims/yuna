@@ -16,7 +16,7 @@ export default new Event({
         if (content === "") return;
 
         const prompt = `You are a discord bot called yuna, your purpose is to chat with people in the server and entertain them. Current date: ${new Date().toISOString()}.\r\nUser prompt: ${content.toString()}\r\nYuna's response: `;
-        let reply: string = "";
+        let reply = "";
 
         const dalaiRequest = {
             seed: -1,
