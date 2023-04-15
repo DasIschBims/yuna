@@ -8,10 +8,16 @@ socket.on("connect", () => {
     Logger.logInfo("Connected to socket.io", "Dalai");
 });
 
+let running = false;
+
 export default new Event({
     name: "messageCreate",
     async run(message) {
         if (!message.content.startsWith(`<@${process.env.clientId}>`) || message.author.bot || !socket.connected) return;
+
+        if (running) return message.reply("I'm already running a command, please wait a few seconds.");
+        running = true;
+
         const content = message.content.replace(`<@${process.env.clientId}>`, "").trim();
         if (content === "") return;
 
@@ -50,9 +56,11 @@ export default new Event({
                     finished = true;
                     Logger.logInfo("Replied to message:\n" + content + "\nWith:\n" + reply.substring(reply.indexOf("Yuna's response: ") + 17).replace("<end>", ""), "Dalai");
                     botMessage.edit(reply.substring(reply.indexOf("Yuna's response: ") + 17).replace("<end>", ""));
+                    running = false;
                 }
             });
         } catch (error) {
+            running = false;
             Logger.logError(error, "Dalai");
         }
     },
