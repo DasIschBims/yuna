@@ -20,6 +20,8 @@ export class ExtendedClient extends Client {
     public selects: ComponentsSelect = new Collection();
     public modals: ComponentsModal = new Collection();
     public events: Collection<string, EventType<keyof ClientEvents>> = new Collection();
+    public basePrompt = `You are a discord bot called yuna, your purpose is to chat with people in the server and entertain them. Current date: ${new Date().toISOString()}.\nUser prompt:`;
+    public gpt: any;
 
     constructor() {
         super({
@@ -38,6 +40,8 @@ export class ExtendedClient extends Client {
             }
             this.registerModules();
             this.registerEvents();
+            // Can't use chat-gpt api since I don't have a paid account /(._ .)\
+            await this.setUpGPT();
             await this.login(process.env.discordToken);
         } catch (error) {
             Logger.logError(error, "Startup");
@@ -45,9 +49,18 @@ export class ExtendedClient extends Client {
         }
     }
 
-    private registerCommands(commands: Array<ApplicationCommandDataResolvable>){
+    private async setUpGPT() {
+        const importDynamic = new Function('modulePath', 'return import(modulePath)');
+        const { ChatGPTAPI } = await importDynamic('chatgpt');
+
+        this.gpt = new ChatGPTAPI({
+            apiKey: process.env.gptKey,
+        });
+    }
+
+    private async registerCommands(commands: Array<ApplicationCommandDataResolvable>) {
         try {
-            this.application?.commands.set(commands);
+            await this.application?.commands.set(commands);
         } catch (error) {
             Logger.logError(`An error occurred while trying to register the slash commands: \n${error}`, "Slash Commands");
         }
