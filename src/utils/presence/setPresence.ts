@@ -11,7 +11,7 @@ export function setPresence(client: ExtendedClient, presence: PresenceData = {
     status: "dnd"
 }) {
     client.user?.setPresence(presence);
-    Logger.logInfo(`Presence set: "${
+    Logger.log(`Presence set: "${
         presence.activities[0].type === 1 ?
             "Streaming" : presence.activities[0].type === 2 ? 
             "Listening to" : presence.activities[0].type === 3 ?

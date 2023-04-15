@@ -20,7 +20,6 @@ export class ExtendedClient extends Client {
     public selects: ComponentsSelect = new Collection();
     public modals: ComponentsModal = new Collection();
     public events: Collection<string, EventType<keyof ClientEvents>> = new Collection();
-    public basePrompt = `You are a discord bot called yuna, your purpose is to chat with people in the server and entertain them. Current date: ${new Date().toISOString()}.\nUser prompt:`;
 
     constructor() {
         super({
@@ -53,6 +52,7 @@ export class ExtendedClient extends Client {
             Logger.logError(`An error occurred while trying to register the slash commands: \n${error}`, "Slash Commands");
         }
     }
+
     private registerModules(){
         const slashCommands: Array<ApplicationCommandDataResolvable> = [];
 

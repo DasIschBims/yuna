@@ -1,53 +1,59 @@
 import {Event} from "../../types/event";
+import { io } from "socket.io-client";
 import {Logger} from "../../utils/logging/logger";
-import axios from "axios";
+import {Message} from "discord.js";
+
+const socket = io("http://127.0.0.1:3000");
+socket.on("connect", () => {
+    Logger.logInfo("Connected to socket.io", "Dalai");
+});
 
 export default new Event({
     name: "messageCreate",
-    async run(interaction) {
-        if (!interaction.content.startsWith(`<@${process.env.clientId}>`) || interaction.author.bot) return;
-        const content = interaction.content.replace(`<@${process.env.clientId}>`, "").trim();
+    async run(message) {
+        if (!message.content.startsWith(`<@${process.env.clientId}>`) || message.author.bot || !socket.connected) return;
+        const content = message.content.replace(`<@${process.env.clientId}>`, "").trim();
         if (content === "") return;
 
-        // const API = "https://api-inference.huggingface.co/models/microsoft/DialoGPT-medium";
-        let reply = "";
+        const prompt = `You are a discord bot called yuna, your purpose is to chat with people in the server and entertain them. Current date: ${new Date().toISOString()}.\r\nUser prompt: ${content.toString()}\r\nYuna's response: `;
+        let reply: string = "";
 
-        // const payload = {
-        //             inputs: {
-        //                 text: content,
-        //             }
-        //         }
-        //
-        //         const headers = {
-        //             'Authorization': `Bearer ${process.env.huggingFaceKey}`,
-        //         }
+        const dalaiRequest = {
+            seed: -1,
+            threads: 16,
+            n_predict: 200,
+            top_k: 40,
+            top_p: 0.9,
+            temp: 0.8,
+            repeat_last_n: 64,
+            repeat_penalty: 1.1,
+            debug: false,
+            models: ["alpaca.7B"],
+            model: "alpaca.7B",
+
+            prompt: prompt,
+        };
 
         try {
-            await interaction.channel.sendTyping();
+            await message.channel.sendTyping();
 
-            // const response = await axios.post(API, JSON.stringify(payload), { headers });
-            //             const data = await response.data;
-            //
-            //             Logger.logInfo(`Chat request: ${content}`, "Chat Content");
-            //             Logger.logInfo(`Chat response: ${JSON.stringify(data)}`, "Chat Data");
-            //
-            //             if (data?.generated_text) {
-            //                 reply = data.generated_text;
-            //             } else {
-            //                 reply = "I'm sorry, I don't know how to respond to that.";
-            //             }
-            //
-            //             Logger.logInfo(`Chat reply: ${reply}`, "Chat Reply");
+            let botMessage: Message;
+            await message.reply("**Loading...**").then((msg) => {
+                botMessage = msg;
+            });
+
+            let finished = false;
+
+            socket.emit("request", dalaiRequest).on("result", (r) => {
+                reply += r.response;
+                if (reply.toString().includes("<end>") && !finished) {
+                    finished = true;
+                    Logger.logInfo("Replied to message:\n" + content + "\nWith:\n" + reply.substring(reply.indexOf("Yuna's response: ") + 17).replace("<end>", ""), "Dalai");
+                    botMessage.edit(reply.substring(reply.indexOf("Yuna's response: ") + 17).replace("<end>", ""));
+                }
+            });
         } catch (error) {
-            // if (error.response.data.error.endsWith("is currently loading")) {
-            //                 reply = "I'm sorry, I'm still loading, estimated time: " + error.response.data.estimated_time.toFixed(0) + " seconds";
-            //                 Logger.logError(`${error.response.data.error}`, "Chat Error");
-            //             } else {
-            //                 reply = "I'm sorry, I don't know how to respond to that.";
-            //                 Logger.logError(`Chat error: ${error}`, "Chat Error");
-            //             }
+            Logger.logError(error, "Dalai");
         }
-
-        return await interaction.reply(reply);
     },
 });
