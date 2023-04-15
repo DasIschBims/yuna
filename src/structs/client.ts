@@ -53,9 +53,15 @@ export class ExtendedClient extends Client {
         const importDynamic = new Function('modulePath', 'return import(modulePath)');
         const { ChatGPTAPI } = await importDynamic('chatgpt');
 
-        this.gpt = new ChatGPTAPI({
-            apiKey: process.env.gptKey,
-        });
+        try {
+            this.gpt = new ChatGPTAPI({
+                apiKey: process.env.gptKey,
+            });
+
+            Logger.logInfo("Set up GPT connection successfully", "GPT");
+        } catch (error) {
+            Logger.logError(error, "GPT");
+        }
     }
 
     private async registerCommands(commands: Array<ApplicationCommandDataResolvable>) {
