@@ -21,7 +21,6 @@ export class ExtendedClient extends Client {
     public modals: ComponentsModal = new Collection();
     public events: Collection<string, EventType<keyof ClientEvents>> = new Collection();
     public basePrompt = `You are a discord bot called yuna, your purpose is to chat with people in the server and entertain them. Current date: ${new Date().toISOString()}.\nUser prompt:`;
-    public gpt: any;
 
     constructor() {
         super({
@@ -40,27 +39,10 @@ export class ExtendedClient extends Client {
             }
             this.registerModules();
             this.registerEvents();
-            // Can't use chat-gpt api since I don't have a paid account /(._ .)\
-            await this.setUpGPT();
             await this.login(process.env.discordToken);
         } catch (error) {
             Logger.logError(error, "Startup");
             process.exit(1);
-        }
-    }
-
-    private async setUpGPT() {
-        const importDynamic = new Function('modulePath', 'return import(modulePath)');
-        const { ChatGPTAPI } = await importDynamic('chatgpt');
-
-        try {
-            this.gpt = new ChatGPTAPI({
-                apiKey: process.env.gptKey,
-            });
-
-            Logger.logInfo("Set up GPT connection successfully", "GPT");
-        } catch (error) {
-            Logger.logError(error, "GPT");
         }
     }
 

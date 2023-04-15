@@ -4,7 +4,7 @@ declare global {
             discordToken: string;
             clientId: string;
             NODE_ENV: "dev" | "prod" | "debug";
-            gptKey: string;
+            huggingFaceKey: string;
         }
     }
 }
