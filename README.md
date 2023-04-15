@@ -2,7 +2,7 @@
 
 **Heavily W.I.P**
 
-#### Current issue:
+#### Current issue: (temporary fix: use dalai)
 ```json
 {
   "OpenAI error 429": {
