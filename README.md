@@ -2,19 +2,6 @@
 
 **Heavily W.I.P**
 
-#### Current issue: (temporary fix: use dalai)
-```json
-{
-  "OpenAI error 429": {
-    "error": {
-      "message": "You exceeded your current quota, please check your plan and billing details.",
-      "type": "insufficient_quota",
-      "param": null,
-      "code": null
-    }
-  }
-}
-```
-(Don't have a credit card to pay for the API, so I can't test it out, sucks to be me I guess)
+Check out [the example .env file](/.env-example) to setup the enviorment.
 
 ![yuna bot avatar](/img/yuna.png?)
