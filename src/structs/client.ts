@@ -11,6 +11,7 @@ import {CommandType, ComponentsButton, ComponentsModal, ComponentsSelect} from "
 import {EventType} from "../types/event";
 import * as fs from "fs";
 import path from "path";
+import mysql from 'mysql';
 
 const fileCondition = (fileName: string) => fileName.endsWith(".ts");
 
@@ -20,6 +21,7 @@ export class ExtendedClient extends Client {
     public selects: ComponentsSelect = new Collection();
     public modals: ComponentsModal = new Collection();
     public events: Collection<string, EventType<keyof ClientEvents>> = new Collection();
+    public db: any;
 
     constructor() {
         super({
@@ -36,6 +38,7 @@ export class ExtendedClient extends Client {
                 Logger.logError("No bot token provided (make sure to setup the .env file)", "Startup");
                 return;
             }
+            await this.connectDB();
             this.registerModules();
             this.registerEvents();
             await this.login(process.env.discordToken);
@@ -95,5 +98,50 @@ export class ExtendedClient extends Client {
                     }
                 });
         });
+
+        if (process.env.enableDalai) {
+            const dalaiPath = path.join(__dirname, "..", "ai");
+
+            fs.readdirSync(dalaiPath).filter(fileCondition).forEach(async fileName => {
+                const { name, once, run }: EventType<keyof ClientEvents> = (await import(`../ai/${fileName}`))?.default as EventType<keyof ClientEvents>;
+                if (!name || !run) return;
+
+                try {
+                    if (name) (once) ? this.once(name, run) : this.on(name, run);
+                    this.events.set(name, { name, once, run });
+                } catch (error) {
+                    Logger.logError(`An error occurred while trying to register the event ${name}: \n${error}`, "Events");
+                }
+            });
+        }
+    }
+
+    private connectDB() {
+        if (!process.env.dbHost || !process.env.dbUser || !process.env.dbPassword || !process.env.dbName) {
+            Logger.logError("Some database credentials are missing (make sure to setup the .env file)", "MariaDB");
+            process.exit(1);
+        }
+
+        try {
+            const connection = mysql.createConnection({
+                host: process.env.dbHost,
+                user: process.env.dbUser,
+                password: process.env.dbPassword,
+                database: process.env.dbName
+            });
+
+            connection.connect((err) => {
+                if (err) {
+                    Logger.logError(`Error connecting to MariaDB database: ${err}`, "MariaDB");
+                    return;
+                }
+
+                Logger.logInfo(`Successfully connected to MariaDB database!`, "MariaDB");
+                this.db = connection;
+            });
+        } catch (error) {
+            Logger.logError(`An error occurred while trying to connect to the MariaDB database: \n${error}`, "MariaDB");
+            process.exit(1);
+        }
     }
 }

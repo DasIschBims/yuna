@@ -4,7 +4,11 @@ declare global {
             discordToken: string;
             clientId: string;
             NODE_ENV: "dev" | "prod" | "debug";
-            huggingFaceKey: string;
+            enableDalai: boolean;
+            dbHost: string;
+            dbUser: string;
+            dbPassword: string;
+            dbName: string;
         }
     }
 }
