@@ -12,6 +12,7 @@ import {EventType} from "../types/event";
 import * as fs from "fs";
 import path from "path";
 import mysql from 'mysql';
+import {User} from "../models/yunaUser";
 
 const fileCondition = (fileName: string) => fileName.endsWith(".ts");
 
@@ -138,6 +139,12 @@ export class ExtendedClient extends Client {
 
                 Logger.logInfo(`Successfully connected to MariaDB database!`, "MariaDB");
                 this.db = connection;
+
+                const userModel = new User(this.db);
+                userModel.createTable()
+                    .catch((error) => {
+                        Logger.logError('Error creating user table:' + error, "MariaDB");
+                    });
             });
         } catch (error) {
             Logger.logError(`An error occurred while trying to connect to the MariaDB database: \n${error}`, "MariaDB");
