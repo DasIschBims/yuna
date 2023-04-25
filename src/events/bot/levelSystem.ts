@@ -52,7 +52,7 @@ export default new Event({
                                 `You need **${getNextLevelGoal(userData.xp + xp - levelGoal)}** xp to reach level **${userData.level + 2}**!`
                             )
                     ]
-                })
+                });
             } else {
                 await prisma.userGuild.update({
                     where: {

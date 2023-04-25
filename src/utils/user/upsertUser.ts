@@ -46,4 +46,4 @@ export const upsertUser = async (
     });
 
     return dbUser;
-}
+};
