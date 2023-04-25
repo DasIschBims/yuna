@@ -4,6 +4,7 @@ import {Event} from "../../types/event";
 
 export default new Event({
     name: "interactionCreate",
+    once: false,
     run(interaction) {
         if (!interaction.isCommand()) return;
 

@@ -3,7 +3,7 @@ import {client} from "../../index";
 
 export default new Event({
     name: "interactionCreate",
-    once: true,
+    once: false,
     run(interaction) {
         if (interaction.isModalSubmit()) {
             client.modals.get(interaction.customId)?.(interaction);

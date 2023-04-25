@@ -11,8 +11,6 @@ import {CommandType, ComponentsButton, ComponentsModal, ComponentsSelect} from "
 import {EventType} from "../types/event";
 import * as fs from "fs";
 import path from "path";
-import mysql from 'mysql';
-import {User} from "../models/yunaUser";
 
 const fileCondition = (fileName: string) => fileName.endsWith(".ts");
 
@@ -22,7 +20,6 @@ export class ExtendedClient extends Client {
     public selects: ComponentsSelect = new Collection();
     public modals: ComponentsModal = new Collection();
     public events: Collection<string, EventType<keyof ClientEvents>> = new Collection();
-    public db: any;
 
     constructor() {
         super({
@@ -39,7 +36,6 @@ export class ExtendedClient extends Client {
                 Logger.logError("No bot token provided (make sure to setup the .env file)", "Startup");
                 return;
             }
-            await this.connectDB();
             this.registerModules();
             this.registerEvents();
             await this.login(process.env.discordToken);
@@ -83,28 +79,25 @@ export class ExtendedClient extends Client {
         this.on("ready", () => this.registerCommands(slashCommands));
     }
     private registerEvents(){
-        const eventsPath = path.join(__dirname, "..", "events");
+        const eventsPath = path.join(__dirname, "..", "events/bot");
 
-        fs.readdirSync(eventsPath).forEach(local => {
-            fs.readdirSync(path.join(__dirname, "..", "events", local)).filter(fileCondition)
-                .forEach(async fileName => {
-                    const { name, once, run }: EventType<keyof ClientEvents> = (await import(`../events/${local}/${fileName}`))?.default as EventType<keyof ClientEvents>;
-                    if (!name || !run) return;
+        fs.readdirSync(eventsPath).filter(fileCondition).forEach(async fileName => {
+            const { name, once, run }: EventType<keyof ClientEvents> = (await import(`../events/bot/${fileName}`))?.default as EventType<keyof ClientEvents>;
+            if (!name || !run) return;
 
-                    try {
-                        if (name) (once) ? this.once(name, run) : this.on(name, run);
-                        this.events.set(name, { name, once, run });
-                    } catch (error) {
-                        Logger.logError(`An error occurred while trying to register the event ${name}: \n${error}`, "Events");
-                    }
-                });
+            try {
+                if (name) (once) ? this.once(name, run) : this.on(name, run);
+                this.events.set(name, { name, once, run });
+            } catch (error) {
+                Logger.logError(`An error occurred while trying to register the event ${name}: \n${error}`, "Events");
+            }
         });
 
         if (process.env.enableDalai) {
-            const dalaiPath = path.join(__dirname, "..", "ai");
+            const dalaiPath = path.join(__dirname, "..", "events/ai");
 
             fs.readdirSync(dalaiPath).filter(fileCondition).forEach(async fileName => {
-                const { name, once, run }: EventType<keyof ClientEvents> = (await import(`../ai/${fileName}`))?.default as EventType<keyof ClientEvents>;
+                const { name, once, run }: EventType<keyof ClientEvents> = (await import(`../events/ai/${fileName}`))?.default as EventType<keyof ClientEvents>;
                 if (!name || !run) return;
 
                 try {
@@ -114,41 +107,6 @@ export class ExtendedClient extends Client {
                     Logger.logError(`An error occurred while trying to register the event ${name}: \n${error}`, "Events");
                 }
             });
-        }
-    }
-
-    private connectDB() {
-        if (!process.env.dbHost || !process.env.dbUser || !process.env.dbPassword || !process.env.dbName) {
-            Logger.logError("Some database credentials are missing (make sure to setup the .env file)", "MariaDB");
-            process.exit(1);
-        }
-
-        try {
-            const connection = mysql.createConnection({
-                host: process.env.dbHost,
-                user: process.env.dbUser,
-                password: process.env.dbPassword,
-                database: process.env.dbName
-            });
-
-            connection.connect((err) => {
-                if (err) {
-                    Logger.logError(`Error connecting to MariaDB database: ${err}`, "MariaDB");
-                    return;
-                }
-
-                Logger.logInfo(`Successfully connected to MariaDB database!`, "MariaDB");
-                this.db = connection;
-
-                const userModel = new User(this.db);
-                userModel.createTable()
-                    .catch((error) => {
-                        Logger.logError('Error creating user table:' + error, "MariaDB");
-                    });
-            });
-        } catch (error) {
-            Logger.logError(`An error occurred while trying to connect to the MariaDB database: \n${error}`, "MariaDB");
-            process.exit(1);
         }
     }
 }

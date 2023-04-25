@@ -1,6 +1,6 @@
-import {Event} from "../types/event";
+import {Event} from "../../types/event";
 import { io } from "socket.io-client";
-import {Logger} from "../utils/logging/logger";
+import {Logger} from "../../utils/logging/logger";
 import {Message} from "discord.js";
 
 const socket = io("http://127.0.0.1:3000");

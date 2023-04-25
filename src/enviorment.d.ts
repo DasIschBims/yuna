@@ -5,10 +5,7 @@ declare global {
             clientId: string;
             NODE_ENV: "dev" | "prod" | "debug";
             enableDalai: boolean;
-            dbHost: string;
-            dbUser: string;
-            dbPassword: string;
-            dbName: string;
+            DATABASE_URL: string;
         }
     }
 }

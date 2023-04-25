@@ -1,0 +1,31 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  userId    String          @id @unique
+  guilds       UserGuild[]
+}
+
+model Guild {
+  guildId    String         @id @unique
+  guild      UserGuild[]
+}
+
+model UserGuild {
+  id          Int           @id @default(autoincrement())
+  guildId     String
+  userId      String
+  xp          Int           @default(0)
+  level       Int           @default(1)
+  balance     Int           @default(50)
+  user        User          @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  guild       Guild         @relation(fields: [guildId], references: [guildId])
+
+  @@unique([userId, guildId], name: "user_guild")
+}
