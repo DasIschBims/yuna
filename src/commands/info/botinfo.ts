@@ -1,4 +1,10 @@
-import {ActionRowBuilder, ApplicationCommandType, ButtonBuilder, ButtonStyle, EmbedBuilder} from "discord.js";
+import {
+    ActionRowBuilder,
+    ApplicationCommandType,
+    ButtonBuilder,
+    ButtonStyle,
+    EmbedBuilder
+} from "discord.js";
 import {Command} from "../../structs/command";
 import {stripIndents,oneLine} from "common-tags";
 import {getRandomColor} from "../../utils/colors/brandColors";
@@ -8,6 +14,7 @@ export default new Command({
     name: "botinfo",
     description: "Displays information about the bot",
     type: ApplicationCommandType.ChatInput,
+    dmPermission: true,
     run: async ({ interaction }) => {
         await interaction.reply({
             embeds: [

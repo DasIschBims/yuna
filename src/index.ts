@@ -12,3 +12,5 @@ try {
 } catch (error) {
     Logger.logError(`${error}`, "Startup");
 }
+
+// TODO: Rework the entire event handling system and make it more scalable with buttons and modals etc., you can basically throw the entire thing away and start from scratch

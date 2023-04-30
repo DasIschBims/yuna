@@ -7,7 +7,7 @@ import {
     Partials
 } from "discord.js";
 import {Logger} from "../utils/logging/logger";
-import {CommandType, ComponentsButton, ComponentsModal, ComponentsSelect} from "../types/command";
+import {CommandType} from "../types/command";
 import {EventType} from "../types/event";
 import * as fs from "fs";
 import path from "path";
@@ -16,10 +16,8 @@ const fileCondition = (fileName: string) => fileName.endsWith(".ts");
 
 export class ExtendedClient extends Client {
     public commands: Collection<string, CommandType> = new Collection();
-    public buttons: ComponentsButton = new Collection();
-    public selects: ComponentsSelect = new Collection();
-    public modals: ComponentsModal = new Collection();
     public events: Collection<string, EventType<keyof ClientEvents>> = new Collection();
+    public buttons: Collection<string, CommandType> = new Collection();
 
     constructor() {
         super({
@@ -59,19 +57,13 @@ export class ExtendedClient extends Client {
         const commandsPath = path.join(__dirname, "..", "commands");
 
         fs.readdirSync(commandsPath).forEach(local => {
-
             fs.readdirSync(commandsPath + `/${local}/`).filter(fileCondition).forEach(async fileName => {
-
                 const command: CommandType = (await import(`../commands/${local}/${fileName}`))?.default;
-                const { name, buttons, selects, modals } = command;
+                const { name } = command;
 
                 if (name) {
                     this.commands.set(name, command);
                     slashCommands.push(command);
-
-                    if (buttons) buttons.forEach((run, key) => this.buttons.set(key, run));
-                    if (selects) selects.forEach((run, key) => this.selects.set(key, run));
-                    if (modals) modals.forEach((run, key) => this.modals.set(key, run));
                 }
             });
         });

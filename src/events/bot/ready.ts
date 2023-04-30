@@ -8,9 +8,6 @@ export default new Event({
     once: true,
     run() {
         Logger.logInfo("Registered " + client.commands.size + " commands", "Startup");
-        Logger.logInfo("Registered " + client.buttons.size + " buttons", "Startup");
-        Logger.logInfo("Registered " + client.selects.size + " selects", "Startup");
-        Logger.logInfo("Registered " + client.modals.size + " modals", "Startup");
         Logger.logInfo("Registered " + client.events.size + " events", "Startup");
         Logger.logSuccess("Successfully logged in as " + client.user?.tag, "Startup");
 

@@ -6,6 +6,7 @@ export default new Command({
     name: "ping",
     description: "Displays the bots latency",
     type: ApplicationCommandType.ChatInput,
+    dmPermission: true,
     run: async ({ interaction }) => {
         await interaction.reply({
             embeds: [
