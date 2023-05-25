@@ -6,9 +6,9 @@ import {
     GatewayIntentBits,
     Partials
 } from "discord.js";
-import {Logger} from "../utils/logging/logger";
-import {CommandType} from "../types/command";
-import {EventType} from "../types/event";
+import {Logger} from "../utils/logging/Logger";
+import {CommandType} from "../types/Command";
+import {EventType} from "../types/Event";
 import * as fs from "fs";
 import path from "path";
 

@@ -1,10 +1,10 @@
 import {ActionRowBuilder, ApplicationCommandType, ButtonBuilder, EmbedBuilder} from "discord.js";
-import {Command} from "../../../structs/command";
-import {prisma} from "../../../utils/db/prisma";
-import {getRandomColor} from "../../../utils/colors/brandColors";
-import {upsertUser} from "../../../utils/user/upsertUser";
-import {getNextLevelGoal} from "../../../utils/level/getNextLevelGoal";
-import {debugDanger, debugPrimary, debugSecondary, debugSuccess} from "../../../components/buttons/debugButtons";
+import {Command} from "../../../structs/Command";
+import {prisma} from "../../../utils/db/Prisma";
+import {getRandomColor} from "../../../utils/colors/BrandColor";
+import {upsertUser} from "../../../utils/user/UpsertUser";
+import {getNextLevelGoal} from "../../../utils/level/GetNextLevelGoal";
+import {debugDanger, debugPrimary, debugSecondary, debugSuccess} from "../../../components/buttons/DebugButtons";
 
 export default new Command({
     name: "debug-all",

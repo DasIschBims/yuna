@@ -1,5 +1,5 @@
-import {ExtendedClient} from "./structs/client";
-import {Logger} from "./utils/logging/logger";
+import {ExtendedClient} from "./structs/Client";
+import {Logger} from "./utils/logging/Logger";
 import {config} from "dotenv";
 
 config();

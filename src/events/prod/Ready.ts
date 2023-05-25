@@ -1,7 +1,7 @@
-import {client} from "../../index";
-import {Event} from "../../types/event";
-import {Logger} from "../../utils/logging/logger";
-import {setPresence} from "../../utils/presence/setPresence";
+import {client} from "../../Index";
+import {Event} from "../../types/Event";
+import {Logger} from "../../utils/logging/Logger";
+import {setPresence} from "../../utils/presence/SetPresence";
 
 export default new Event({
     name: "ready",

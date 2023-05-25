@@ -1,5 +1,5 @@
 import {GuildMember, PartialGuildMember} from "discord.js";
-import {prisma} from "../db/prisma";
+import {prisma} from "../db/Prisma";
 
 export const upsertUser = async (
     user: GuildMember | PartialGuildMember

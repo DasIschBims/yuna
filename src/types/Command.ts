@@ -3,7 +3,7 @@ import {
     CommandInteraction,
     CommandInteractionOptionResolver,
 } from "discord.js";
-import {ExtendedClient} from "../structs/client";
+import {ExtendedClient} from "../structs/Client";
 
 interface CommandProps {
     client: ExtendedClient,

@@ -1,9 +1,9 @@
-import {Event} from "../../types/event";
-import {Logger} from "../../utils/logging/logger";
-import {prisma} from "../../utils/db/prisma";
-import {getNextLevelGoal} from "../../utils/level/getNextLevelGoal";
-import {upsertUser} from "../../utils/user/upsertUser";
-import {getRandomColor} from "../../utils/colors/brandColors";
+import {Event} from "../../types/Event";
+import {Logger} from "../../utils/logging/Logger";
+import {prisma} from "../../utils/db/Prisma";
+import {getNextLevelGoal} from "../../utils/level/GetNextLevelGoal";
+import {upsertUser} from "../../utils/user/UpsertUser";
+import {getRandomColor} from "../../utils/colors/BrandColor";
 import {EmbedBuilder} from "discord.js";
 
 export default new Event({

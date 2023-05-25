@@ -1,8 +1,8 @@
-// create a function that picks a random color from the brandColors array
+// create a function that picks a random color from the brandColor array
 // and returns it
 import {ColorResolvable} from "discord.js";
 
-const brandColors: ColorResolvable[] = [
+const brandColor: ColorResolvable[] = [
     "#0081a7",
     "#00afb9",
     "#fdfcdc",
@@ -13,7 +13,7 @@ const brandColors: ColorResolvable[] = [
 let lastColor: ColorResolvable = "#000000";
 
 export function getRandomColor(): ColorResolvable {
-    let color: ColorResolvable = brandColors[Math.floor(Math.random() * brandColors.length)];
+    let color: ColorResolvable = brandColor[Math.floor(Math.random() * brandColor.length)];
     if (color === lastColor) {
         color = getRandomColor();
     }

@@ -1,6 +1,6 @@
-import {Event} from "../../types/event";
-import {Logger} from "../../utils/logging/logger";
-import {client} from "../../index";
+import {Event} from "../../types/Event";
+import {Logger} from "../../utils/logging/Logger";
+import {client} from "../../Index";
 import {CommandInteractionOptionResolver} from "discord.js";
 
 export default new Event({

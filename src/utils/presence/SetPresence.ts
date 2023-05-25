@@ -1,7 +1,7 @@
-import {ExtendedClient} from "../../structs/client";
+import {ExtendedClient} from "../../structs/Client";
 import {ActivityType} from "discord-api-types/v10";
 import {PresenceData} from "discord.js";
-import {Logger} from "../logging/logger";
+import {Logger} from "../logging/Logger";
 
 export function setPresence(client: ExtendedClient, presence: PresenceData = {
     activities: [{
