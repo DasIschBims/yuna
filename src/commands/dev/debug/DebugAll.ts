@@ -4,7 +4,8 @@ import {prisma} from "../../../utils/db/Prisma";
 import {getRandomColor} from "../../../utils/colors/BrandColor";
 import {upsertUser} from "../../../utils/user/UpsertUser";
 import {getNextLevelGoal} from "../../../utils/level/GetNextLevelGoal";
-import {debugDanger, debugPrimary, debugSecondary, debugSuccess} from "../../../components/buttons/DebugButtons";
+import "../../../components/buttons/DebugButtons";
+import debugButtons from "../../../components/buttons/DebugButtons";
 
 export default new Command({
     name: "debug-all",
@@ -82,10 +83,10 @@ export default new Command({
             ],
             components: [
                 new ActionRowBuilder<ButtonBuilder>().setComponents(
-                    debugPrimary,
-                    debugSecondary,
-                    debugSuccess,
-                    debugDanger
+                    debugButtons.get("debug-primary"),
+                    debugButtons.get("debug-secondary"),
+                    debugButtons.get("debug-success"),
+                    debugButtons.get("debug-danger"),
                 )
             ]
         });
