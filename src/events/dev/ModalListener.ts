@@ -7,9 +7,9 @@ export default new Event({
     name: "interactionCreate",
     once: false,
     async run(interaction) {
-        if (!interaction.isButton()) return;
+        if (!interaction.isModalSubmit()) return;
 
-        Logger.debug("Button interaction received: " + interaction.customId, "ButtonListener");
+        Logger.debug("Modal submit interaction received: " + interaction.customId, "ModalListener");
 
         await interaction.reply({
             embeds: [
@@ -39,10 +39,8 @@ export default new Event({
                                     id: interaction.channel.id,
                                     name: interaction.channel.name,
                                 },
-                                message: {
-                                    id: interaction.message.id,
-                                    content: interaction.message.content,
-                                },
+                                inputValues: interaction.fields.fields,
+
                             }, null, 2) + "```"
                         }
                     ),
