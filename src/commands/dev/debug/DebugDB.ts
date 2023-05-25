@@ -1,14 +1,12 @@
-import {ActionRowBuilder, ApplicationCommandType, ButtonBuilder, EmbedBuilder} from "discord.js";
+import {ApplicationCommandType, EmbedBuilder} from "discord.js";
 import {Command} from "../../../structs/Command";
 import {prisma} from "../../../utils/db/Prisma";
 import {getRandomColor} from "../../../utils/colors/BrandColor";
 import {upsertUser} from "../../../utils/user/UpsertUser";
 import {getNextLevelGoal} from "../../../utils/level/GetNextLevelGoal";
-import "../../../components/buttons/DebugButtons";
-import debugButtons from "../../../components/buttons/DebugButtons";
 
 export default new Command({
-    name: "debug-all",
+    name: "debug-db",
     description: "Developer command",
     type: ApplicationCommandType.ChatInput,
     dmPermission: false,
@@ -80,14 +78,6 @@ export default new Command({
                             value: "```json\n" + JSON.stringify("Current XP: " + userGuildEntries.xp + ", XP needed for Level up: " + getNextLevelGoal(userGuildEntries.level), null, 2) + "```"
                         }
                     )
-            ],
-            components: [
-                new ActionRowBuilder<ButtonBuilder>().setComponents(
-                    debugButtons.get("debug-primary"),
-                    debugButtons.get("debug-secondary"),
-                    debugButtons.get("debug-success"),
-                    debugButtons.get("debug-danger"),
-                )
             ]
         });
     }
