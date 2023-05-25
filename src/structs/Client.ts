@@ -88,7 +88,7 @@ export class ExtendedClient extends Client {
             Logger.logInfo(`Loading ${folder} events...`, "Events");
 
             fs.readdirSync(eventBasePath + `/${folder}/`).filter(fileCondition).forEach(async fileName => {
-                const { name, once, run }: EventType<keyof ClientEvents> = (await import(`../events/${folder}/${fileName}`))?.default;
+                const { name, once, run }: EventType<keyof ClientEvents> = (await import(`../events/${folder}/${fileName}`))?.default ?? {};
                 if (!name || !run) return;
 
                 try {
