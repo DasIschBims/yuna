@@ -23,6 +23,10 @@ export class Logger {
         console.log(colors.blue(`${type} | ${message}`).bold);
     }
 
+    static debug(message: string, type: string) {
+        console.log(colors.magenta(`${type} | ${message}`).bold);
+    }
+
     static printLogo() {
         const logoGradient = gradient([
             {color: '#0081a7', pos: 0.1},

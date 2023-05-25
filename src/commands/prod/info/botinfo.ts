@@ -5,10 +5,10 @@ import {
     ButtonStyle,
     EmbedBuilder
 } from "discord.js";
-import {Command} from "../../structs/command";
+import {Command} from "../../../structs/command";
 import {stripIndents,oneLine} from "common-tags";
-import {getRandomColor} from "../../utils/colors/brandColors";
-import {dependencies,version,repository} from "../../../package.json";
+import {getRandomColor} from "../../../utils/colors/brandColors";
+import {dependencies,version,repository} from "../../../../package.json";
 
 export default new Command({
     name: "botinfo",

@@ -30,13 +30,13 @@ export class ExtendedClient extends Client {
         try {
             console.clear();
             await Logger.printLogo();
-            if (!process.env.discordToken) {
+            if (!process.env.DISCORD_TOKEN) {
                 Logger.logError("No bot token provided (make sure to setup the .env file)", "Startup");
                 return;
             }
             this.registerModules();
             this.registerEvents();
-            await this.login(process.env.discordToken);
+            await this.login(process.env.DISCORD_TOKEN);
         } catch (error) {
             Logger.logError(error, "Startup");
             process.exit(1);
@@ -54,16 +54,26 @@ export class ExtendedClient extends Client {
     private registerModules(){
         const slashCommands: Array<ApplicationCommandDataResolvable> = [];
 
-        const commandsPath = path.join(__dirname, "..", "commands");
+        const commandsBasePath = path.join(__dirname, "..", "commands");
+        const commandsFolders = process.env.NODE_ENV === "dev" ? ["dev", "prod"] : ["prod"];
 
-        fs.readdirSync(commandsPath).forEach(local => {
-            fs.readdirSync(commandsPath + `/${local}/`).filter(fileCondition).forEach(async fileName => {
-                const command: CommandType = (await import(`../commands/${local}/${fileName}`))?.default;
-                const { name } = command;
+        commandsFolders.forEach(folder => {
+            fs.readdirSync(commandsBasePath + `/${folder}/`).forEach(async dirName => {
+                Logger.logInfo(`Loading ${folder} commands...`, "Commands");
 
-                if (name) {
-                    this.commands.set(name, command);
-                    slashCommands.push(command);
+                for (const fileName of fs.readdirSync(commandsBasePath + `/${folder}/${dirName}/`).filter(fileCondition)) {
+                    const command: CommandType = (await import(`../commands/${folder}/${dirName}/${fileName}`))?.default;
+                    const { name } = command;
+
+                    try {
+                        if (name) {
+                            this.commands.set(name, command);
+                            slashCommands.push(command);
+                        }
+                        Logger.debug(`Loaded ${name} command`, `Commands ${process.env.NODE_ENV === "dev" ? `(${folder})` : ""}`);
+                    } catch (error) {
+                        Logger.logError(`An error occurred while trying to load the ${name} command: \n${error}`, "Commands");
+                    }
                 }
             });
         });
@@ -71,34 +81,24 @@ export class ExtendedClient extends Client {
         this.on("ready", () => this.registerCommands(slashCommands));
     }
     private registerEvents(){
-        const eventsPath = path.join(__dirname, "..", "events/bot");
+        const eventBasePath = path.join(__dirname, "..", "events");
+        const eventFolders = process.env.NODE_ENV === "dev" ? ["dev", "prod"] : ["prod"];
 
-        fs.readdirSync(eventsPath).filter(fileCondition).forEach(async fileName => {
-            const { name, once, run }: EventType<keyof ClientEvents> = (await import(`../events/bot/${fileName}`))?.default as EventType<keyof ClientEvents>;
-            if (!name || !run) return;
+        eventFolders.forEach(folder => {
+            Logger.logInfo(`Loading ${folder} events...`, "Events");
 
-            try {
-                if (name) (once) ? this.once(name, run) : this.on(name, run);
-                this.events.set(name, { name, once, run });
-            } catch (error) {
-                Logger.logError(`An error occurred while trying to register the event ${name}: \n${error}`, "Events");
-            }
-        });
-
-        if (process.env.enableDalai) {
-            const dalaiPath = path.join(__dirname, "..", "events/ai");
-
-            fs.readdirSync(dalaiPath).filter(fileCondition).forEach(async fileName => {
-                const { name, once, run }: EventType<keyof ClientEvents> = (await import(`../events/ai/${fileName}`))?.default as EventType<keyof ClientEvents>;
+            fs.readdirSync(eventBasePath + `/${folder}/`).filter(fileCondition).forEach(async fileName => {
+                const { name, once, run }: EventType<keyof ClientEvents> = (await import(`../events/${folder}/${fileName}`))?.default;
                 if (!name || !run) return;
 
                 try {
                     if (name) (once) ? this.once(name, run) : this.on(name, run);
                     this.events.set(name, { name, once, run });
+                    Logger.debug(`Loaded ${name} event`, `Events ${process.env.NODE_ENV === "dev" ? `(${folder})` : ""}`);
                 } catch (error) {
-                    Logger.logError(`An error occurred while trying to register the event ${name}: \n${error}`, "Events");
+                    Logger.logError(`An error occurred while trying to load the ${name} event: \n${error}`, "Events");
                 }
             });
-        }
+        });
     }
 }

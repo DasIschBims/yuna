@@ -1,10 +1,9 @@
 declare global {
     namespace NodeJS {
         interface ProcessEnv {
-            discordToken: string;
-            clientId: string;
+            DISCORD_TOKEN: string;
+            DISCORD_CLIENT_ID: string;
             NODE_ENV: "dev" | "prod" | "debug";
-            enableDalai: boolean;
             DATABASE_URL: string;
         }
     }

@@ -1,6 +1,6 @@
 import {ApplicationCommandType, EmbedBuilder} from "discord.js";
-import {Command} from "../../structs/command";
-import {getRandomColor} from "../../utils/colors/brandColors";
+import {Command} from "../../../structs/command";
+import {getRandomColor} from "../../../utils/colors/brandColors";
 
 export default new Command({
     name: "ping",

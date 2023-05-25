@@ -1,13 +1,13 @@
 import {ActionRowBuilder, ApplicationCommandType, ButtonBuilder, EmbedBuilder} from "discord.js";
-import {Command} from "../../structs/command";
-import {prisma} from "../../utils/db/prisma";
-import {getRandomColor} from "../../utils/colors/brandColors";
-import {upsertUser} from "../../utils/user/upsertUser";
-import {getNextLevelGoal} from "../../utils/level/getNextLevelGoal";
-import {debugDanger, debugPrimary, debugSecondary, debugSuccess} from "../../components/buttons/debugButtons";
+import {Command} from "../../../structs/command";
+import {prisma} from "../../../utils/db/prisma";
+import {getRandomColor} from "../../../utils/colors/brandColors";
+import {upsertUser} from "../../../utils/user/upsertUser";
+import {getNextLevelGoal} from "../../../utils/level/getNextLevelGoal";
+import {debugDanger, debugPrimary, debugSecondary, debugSuccess} from "../../../components/buttons/debugButtons";
 
 export default new Command({
-    name: "debug",
+    name: "debug-all",
     description: "Developer command",
     type: ApplicationCommandType.ChatInput,
     dmPermission: false,
