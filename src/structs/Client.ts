@@ -12,12 +12,11 @@ import {EventType} from "../types/Event";
 import * as fs from "fs";
 import path from "path";
 
-const fileCondition = (fileName: string) => fileName.endsWith(".ts");
+const fileCondition = (fileName: string) => fileName.endsWith(".ts") || fileName.endsWith(".js");
 
 export class ExtendedClient extends Client {
     public commands: Collection<string, CommandType> = new Collection();
     public events: Collection<string, EventType<keyof ClientEvents>> = new Collection();
-    public buttons: Collection<string, CommandType> = new Collection();
 
     constructor() {
         super({
@@ -59,6 +58,10 @@ export class ExtendedClient extends Client {
 
         commandsFolders.forEach(folder => {
             fs.readdirSync(commandsBasePath + `/${folder}/`).forEach(async dirName => {
+                if (commandsFolders.includes("dev")) {
+                    Logger.debug(`Loading commands from ${dirName}...`, "Commands");
+                    Logger.debug(JSON.stringify(fs.readdirSync(commandsBasePath + `/${folder}/${dirName}/`).filter(fileCondition)), "Commands");
+                }
                 Logger.logInfo(`Loading ${folder} commands...`, "Commands");
 
                 for (const fileName of fs.readdirSync(commandsBasePath + `/${folder}/${dirName}/`).filter(fileCondition)) {
