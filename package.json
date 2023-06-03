@@ -8,7 +8,7 @@
     "start:dev": "ts-node-dev src/Index.ts",
     "start:prod": "node dist/src/Index.js",
     "build": "rimraf dist && npm run lint && tsc",
-    "start:build:prod": "npm run build && npm run start:prod",
+    "build:start:prod": "npm run build && npm run start:prod",
     "watch": "tsc -w",
     "lint": "eslint src --ext .ts",
     "lint:fix": "eslint src --ext .ts --fix",
