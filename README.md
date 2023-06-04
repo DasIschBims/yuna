@@ -24,9 +24,12 @@ npm install
     ```bash
     npm run prisma:prod
     ```
-    3. If you want to run it in a container, you can use the provided `Dockerfile` file to build an image and run it.
-    
-    > Note: A docker-compose file will be added in the future.
+    3. If you prefer Docker for running the bot, you can use the provided `docker-compose.yml` file to run it.
+    ```bash
+    docker-compose up -d
+    ```
+   
+   > Note: You have to set up all the environment variables in the `.env` file before running the bot with docker, or it will fail to start.
 
     4. Running and building without docker can be achieved by running
     ```bash

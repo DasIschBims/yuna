@@ -6,7 +6,7 @@
   "scripts": {
     "start": "ts-node src/Index.ts",
     "start:dev": "ts-node-dev src/Index.ts",
-    "start:prod": "node dist/src/Index.js",
+    "start:prod": "npm run prisma:prod && node dist/src/Index.js",
     "build": "rimraf dist && npm run lint && tsc",
     "build:start:prod": "npm run build && npm run start:prod",
     "watch": "tsc -w",
@@ -40,9 +40,11 @@
     "dotenv": "^16.0.3",
     "figlet": "^1.6.0",
     "gradient-string": "^2.0.2",
+    "rimraf": "^5.0.1",
     "socket.io": "^4.6.1",
     "socket.io-client": "^4.6.1",
-    "ts-node-dev": "^2.0.0"
+    "ts-node-dev": "^2.0.0",
+    "wait-on": "^7.0.1"
   },
   "devDependencies": {
     "@types/figlet": "^1.5.5",

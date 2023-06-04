@@ -42,6 +42,8 @@ RUN ls -la
 RUN pwd
 RUN cat .env
 
-# Run the app
-CMD [ "npm", "run", "start:prod" ]
+# Migrate database
+CMD [ "npm", "run", "prisma:prod" ]
 
+# Start app
+CMD [ "node", "dist/src/Index.js" ]
