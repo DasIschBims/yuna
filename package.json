@@ -6,7 +6,7 @@
   "scripts": {
     "start": "ts-node src/Index.ts",
     "start:dev": "ts-node-dev src/Index.ts",
-    "start:prod": "npm run prisma:prod && node dist/src/Index.js",
+    "start:prod": "npx wait-on tcp:yuna-database:3306 && npm run prisma:prod && node dist/src/Index.js",
     "build": "rimraf dist && npm run lint && tsc",
     "build:start:prod": "npm run build && npm run start:prod",
     "watch": "tsc -w",

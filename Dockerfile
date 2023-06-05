@@ -45,7 +45,7 @@ RUN apt-get update && apt-get install -y \
     && npm install canvas
 
 # Migrate database
-CMD ["npm", "run", "prisma:prod"]
+RUN ["npm", "run", "prisma:prod"]
 
 # Start app
-CMD ["node", "dist/src/Index.js"]
+CMD ["npm", "run", "start:prod"]
