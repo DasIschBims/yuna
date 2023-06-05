@@ -2,7 +2,7 @@
 FROM node:18 as dependencies
 WORKDIR /usr/src/app
 
-# Install app dependencies and copy files
+# Copy package.json and install app dependencies
 COPY package.json ./
 COPY /prisma ./prisma
 
@@ -10,11 +10,7 @@ RUN npm install --omit=dev
 
 ################################################
 # Stage 1 - Build app
-FROM node:18 as build
-WORKDIR /usr/src/app
-
-# Copy app dependencies
-COPY --from=dependencies /usr/src/app/node_modules ./node_modules
+FROM dependencies as build
 
 # Copy app source
 COPY . .
@@ -37,13 +33,19 @@ COPY --from=build /usr/src/app/prisma ./prisma
 # Change NODE_ENV to prod inside .env if not already set
 RUN sed -i 's/NODE_ENV=.*/NODE_ENV=prod/g' .env
 
-# Debugging
-RUN ls -la
-RUN pwd
-RUN cat .env
+# Install node-canvas
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    libcairo2-dev \
+    libpango1.0-dev \
+    libjpeg-dev \
+    libgif-dev \
+    librsvg2-dev \
+    g++ \
+    && npm install canvas
 
 # Migrate database
-CMD [ "npm", "run", "prisma:prod" ]
+CMD ["npm", "run", "prisma:prod"]
 
 # Start app
-CMD [ "node", "dist/src/Index.js" ]
+CMD ["node", "dist/src/Index.js"]
