@@ -2,9 +2,10 @@ import {Guild} from "discord.js";
 import {ChartData, MemberChart} from "../../types/Stats";
 import {getDaysArray} from "./GetDaysArray";
 import {ChartConfiguration} from "chart.js";
-import {ChartJSNodeCanvas} from "chartjs-node-canvas";
 import dayjs from "dayjs";
 import {getRandomColor} from "../colors/BrandColor";
+import {chartJSNodeCanvas} from "./ChartJSNodeCanvas";
+
 
 export const memberChart = async (
     guild: Guild,
@@ -28,7 +29,7 @@ export const memberChart = async (
     const data: ChartData[] = startEndDate.map((date) => ({
         x: dayjs(date).toDate(),
         y: dates.filter((d) => dayjs(d) <= dayjs(date)).length,
-    }))
+    }));
 
     let thirtyDaysCount, sevenDaysCount, oneDayCount = data[data.length - 1].y;
 
@@ -73,7 +74,7 @@ export const memberChart = async (
                 xAxes: {
                     ticks: { color: "#ffffff" },
                     grid: { display: false, z: 100, drawBorder: false },
-                    type: "timeseries",
+                    type: "time",
                     time: {
                         unit: data.length > 360 ? "month" : "day"
                     }
@@ -82,14 +83,10 @@ export const memberChart = async (
         }
     } as ChartConfiguration<'line', ChartData[]>;
 
-    const image = await new ChartJSNodeCanvas({
-        width: 1200,
-        height: 400,
-        backgroundColour: "#3f424f",
-        plugins: {
-            globalVariableLegacy: ["chartjs-adapter-dayjs-3"],
-        },
-    }).renderToBuffer(chartConfig as unknown as ChartConfiguration, "image/png");
+    const image = await chartJSNodeCanvas.renderToBuffer(
+        chartConfig as unknown as ChartConfiguration,
+        "image/png"
+    );
 
     return {
         color: color,
@@ -99,4 +96,4 @@ export const memberChart = async (
         sevenDaysCount: sevenDaysCount,
         oneDayCount: oneDayCount
     };
-}
+};
