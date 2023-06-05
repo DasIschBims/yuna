@@ -27,6 +27,14 @@ export default new Command({
         const memberCount = interaction.guild?.members.cache.filter((member) => !member.user.bot).size;
         const botCount = count - memberCount;
 
+        const thirtyDaysCount = chart.thirtyDaysCount;
+        const sevenDaysCount = chart.sevenDaysCount;
+        const oneDayCount = chart.oneDayCount;
+
+        const thirtyDaysPercent = (thirtyDaysCount / memberCount) * 100;
+        const sevenDaysPercent = (sevenDaysCount / memberCount) * 100;
+        const oneDayPercent = (oneDayCount / memberCount) * 100;
+
         return await interaction.reply({
             embeds: [
                 new EmbedBuilder()
@@ -38,6 +46,13 @@ export default new Command({
                             name: "Current members",
                             value: "Users: ``" + memberCount.toLocaleString() + "``\n" +
                                    "Bots: ``" + botCount.toLocaleString() + "``"
+                        },
+                        {
+                            name: "Growth over time",
+                            value:
+                                "Last month: ``" + (thirtyDaysCount > 0 ? "+" : "") + thirtyDaysCount.toLocaleString() + " members ("+ (thirtyDaysCount > 0 ? "+" : "") + thirtyDaysPercent.toFixed(2) + "%)``\n" +
+                                "Last week: ``" + (sevenDaysCount > 0 ? "+" : "") + sevenDaysCount.toLocaleString() + " members ("+ (sevenDaysCount > 0 ? "+" : "") + sevenDaysPercent.toFixed(2) + "%)``\n" +
+                                "Last day: ``" + (oneDayCount > 0 ? "+" : "") + oneDayCount.toLocaleString() + " members ("+ (oneDayCount > 0 ? "+" : "") + oneDayPercent.toFixed(2) + "%)``"
                         }
                     ])
                     .setImage("attachment://" + chart.fileName)

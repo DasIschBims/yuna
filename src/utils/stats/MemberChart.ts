@@ -6,7 +6,6 @@ import dayjs from "dayjs";
 import {getRandomColor} from "../colors/BrandColor";
 import {chartJSNodeCanvas} from "./ChartJSNodeCanvas";
 
-
 export const memberChart = async (
     guild: Guild,
 ): Promise<MemberChart> => {
@@ -34,11 +33,11 @@ export const memberChart = async (
     let thirtyDaysCount, sevenDaysCount, oneDayCount = data[data.length - 1].y;
 
     if (data.length >= 30)
-        thirtyDaysCount = data[data.length - 30].y;
+        thirtyDaysCount = data[data.length - 30].y - guild.memberCount + 1;
     if (data.length >= 7)
-        sevenDaysCount = data[data.length - 7].y;
+        sevenDaysCount = data[data.length - 7].y - guild.memberCount + 1;
     if (data.length >= 1)
-        oneDayCount = data[data.length - 1].y;
+        oneDayCount = data[data.length - 1].y - guild.memberCount + 1;
 
     const color = getRandomColor();
 
