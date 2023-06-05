@@ -14,7 +14,7 @@ export default new Command({
                     .setColor(getRandomColor())
                     .setTimestamp()
                     .setTitle("Pong! 🏓")
-                    .setDescription(`Ping: **${interaction.client.ws.ping}ms**`)
+                    .setDescription(`Ping: **${Date.now() - interaction.createdTimestamp}ms**`)
             ]
         });
     }
