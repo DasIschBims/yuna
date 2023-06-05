@@ -38,11 +38,15 @@ export default new Command({
                             inline: true
                         },
                         {
-                            name: "Stack",
+                            name: "Fetch",
                             value: stripIndents`\`\`\`asciidoc
                                         Version      :: ${version}
+                                        NODE_ENV     :: ${process.env.NODE_ENV}
+                                        OS           :: ${process.platform} (${process.arch})
+                                        Uptime       :: ${Math.floor(process.uptime() / 60 / 60)}h ${Math.floor(process.uptime() / 60) % 60}m ${Math.floor(process.uptime()) % 60}s
+                                        Memory       :: ${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB/${(process.memoryUsage().heapTotal / 1024 / 1024).toFixed(2)} MB
                                         Packages     :: ${Object.keys(dependencies).length}
-                                        Library      :: Discord.js v${
+                                        Discord.js   :: v${
                                             dependencies['discord.js'].substring(1) || ''
                                         }
                                         Environment  :: Node.js ${process.version}
