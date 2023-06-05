@@ -21,17 +21,12 @@ export default new Command({
                 new EmbedBuilder()
                     .setTitle(`${interaction.client.user.tag}`)
                     .setDescription(oneLine`
-                        yuna is an open source discord bot written with typescript and discord.js which is currently in development.
+                        yuna is an open source discord bot written with typescript and discord.js which is currently in a total of **${interaction.client.guilds.cache.size.toLocaleString()}** servers.
                         Check out the source code **[here](
                         ${repository.url.replace(/\.git$/,"").replace(/^git\+/,"")}
                         )** or via the GitHub button below.
                     `)
                     .addFields([
-                        {
-                            name: "Servers",
-                            value: `yuna is currently in **${interaction.client.guilds.cache.size.toLocaleString()}** servers`,
-                            inline: true
-                        },
                         {
                             name: "Developer",
                             value: `DasIschBims#1248 (<@!337296708117594113>)`,
