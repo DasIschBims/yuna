@@ -72,7 +72,11 @@ export const memberChart = async (
                 },
                 xAxes: {
                     ticks: { color: "#ffffff" },
-                    grid: { display: false, z: 100, drawBorder: false }
+                    grid: { display: false, z: 100, drawBorder: false },
+                    type: "timeseries",
+                    time: {
+                        unit: data.length > 360 ? "month" : "day"
+                    }
                 }
             }
         }
@@ -84,7 +88,7 @@ export const memberChart = async (
         backgroundColour: "#3f424f",
         plugins: {
             globalVariableLegacy: ["chartjs-adapter-dayjs-3"],
-        }
+        },
     }).renderToBuffer(chartConfig as unknown as ChartConfiguration, "image/png");
 
     return {
