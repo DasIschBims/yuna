@@ -44,8 +44,5 @@ RUN apt-get update && apt-get install -y \
     g++ \
     && npm install canvas
 
-# Migrate database
-RUN ["npm", "run", "prisma:prod"]
-
 # Start app
 CMD ["npm", "run", "start:prod"]
