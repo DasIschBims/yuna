@@ -49,7 +49,7 @@ export const memberChart = async (
                     data: data,
                     fill: true,
                     borderColor: color,
-                    backgroundColor: color.toString().replace("rgb", "rgba").replace(")", ", 0.5)")
+                    backgroundColor: color.valueOf() + "10"
                 }
             ]
         },
