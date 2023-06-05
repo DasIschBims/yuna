@@ -57,12 +57,12 @@ export class ExtendedClient extends Client {
         const commandsFolders = process.env.NODE_ENV === "dev" ? ["dev", "prod"] : ["prod"];
 
         commandsFolders.forEach(folder => {
+            Logger.logInfo(`Loading ${folder} commands...`, "Commands");
             fs.readdirSync(commandsBasePath + `/${folder}/`).forEach(async dirName => {
                 if (commandsFolders.includes("dev")) {
                     Logger.debug(`Loading commands from ${dirName}...`, "Commands");
                     Logger.debug(JSON.stringify(fs.readdirSync(commandsBasePath + `/${folder}/${dirName}/`).filter(fileCondition)), "Commands");
                 }
-                Logger.logInfo(`Loading ${folder} commands...`, "Commands");
 
                 for (const fileName of fs.readdirSync(commandsBasePath + `/${folder}/${dirName}/`).filter(fileCondition)) {
                     const command: CommandType = (await import(`../commands/${folder}/${dirName}/${fileName}`))?.default;

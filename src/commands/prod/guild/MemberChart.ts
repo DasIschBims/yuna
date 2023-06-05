@@ -5,7 +5,7 @@ import {memberChart} from "../../../utils/stats/MemberChart";
 
 export default new Command({
     name: "members",
-    description: "Draw a member count graph",
+    description: "Draw a chart of the member count over time",
     type: ApplicationCommandType.ChatInput,
     dmPermission: false,
     run: async ({ interaction }) => {
