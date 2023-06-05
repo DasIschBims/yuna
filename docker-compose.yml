@@ -22,6 +22,7 @@ services:
     hostname: yuna-database
 
   yuna-bot:
+    image: yuna-bot
     container_name: yuna-bot
     depends_on:
       - yuna-database
