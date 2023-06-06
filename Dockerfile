@@ -50,4 +50,4 @@ COPY wait-for.sh ./wait-for.sh
 RUN chmod +x ./wait-for.sh
 
 # Start app
-CMD /bin/sh -c "./wait-for.sh yuna-database 3306 -- npx prisma migrate deploy --preview-feature && npm run start:prod"
+CMD /bin/sh -c "./wait-for.sh yuna-database 3306 && npx prisma migrate deploy --preview-feature && npm run start:prod"
