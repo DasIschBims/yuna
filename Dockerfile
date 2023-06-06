@@ -45,7 +45,7 @@ RUN apt-get update && apt-get install -y \
     && npm install canvas
 
 # Migration
-RUN npx wait-on tcp:yuna-database:3306 && sleep 15 && npm run prisma:prod
+RUN sleep 20 && npm run prisma:migrate
 
 # Start app
 CMD /bin/sh -c "until npm run prisma:prod; do sleep 5; done && node dist/src/Index.js"
