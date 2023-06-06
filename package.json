@@ -14,6 +14,7 @@
     "lint:fix": "eslint src --ext .ts --fix",
     "prisma": "npx prisma migrate dev --name init & npx prisma generate",
     "prisma:migrate": "npx prisma migrate resolve --applied 000000000000_init",
+    "prisma:generate": "npx prisma generate",
     "prisma:prod": "npx prisma migrate deploy --preview-feature"
   },
   "repository": {
