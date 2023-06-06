@@ -10,7 +10,7 @@ services:
       - "3306:3306"
     volumes:
         - ./data:/var/lib/mysql
-        - ./prisma/migrations/000000000000_init/migration.sql/:/docker-entrypoint-initdb.d/init-schema.sql
+        - ./initdb/initial.sql:/docker-entrypoint-initdb.d/init-schema.sql
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
