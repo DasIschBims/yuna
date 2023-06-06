@@ -45,4 +45,4 @@ RUN apt-get update && apt-get install -y \
     && npm install canvas
 
 # Start app
-CMD /bin/sh -c "until npx prisma migrate deploy; do sleep 5; done && node dist/src/Index.js"
+CMD /bin/sh -c "until npm run prisma:prod; do sleep 5; done && node dist/src/Index.js"
