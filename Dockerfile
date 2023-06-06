@@ -44,5 +44,8 @@ RUN apt-get update && apt-get install -y \
     g++ \
     && npm install canvas
 
+# Migration
+RUN npx wait-on tcp:yuna-database:3306 && sleep 15 && npm run prisma:prod
+
 # Start app
-CMD /bin/sh -c "sleep 15; until npm run prisma:prod; do sleep 5; done && node dist/src/Index.js"
+CMD /bin/sh -c "until npm run prisma:prod; do sleep 5; done && node dist/src/Index.js"
