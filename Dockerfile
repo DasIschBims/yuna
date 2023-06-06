@@ -44,5 +44,11 @@ RUN apt-get update && apt-get install -y \
     g++ \
     && npm install canvas
 
+# Wait for database to be ready
+RUN ["npx", "wait-on", "tcp:yuna-database:3306"]
+
+# Run migrations
+RUN ["npx", "prisma", "migrate", "deploy"]
+
 # Start app
-CMD ["npm", "run", "start:prod"]
+CMD ["node", "dist/src/Index.js"]
