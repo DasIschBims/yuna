@@ -42,10 +42,12 @@ RUN apt-get update && apt-get install -y \
     libgif-dev \
     librsvg2-dev \
     g++ \
+    netcat \
     && npm install canvas
 
-# Migration
-RUN sleep 20 && npm run prisma:migrate && npm run prisma:generate
+# Add a script to wait for the database
+COPY wait-for.sh ./wait-for.sh
+RUN chmod +x ./wait-for.sh
 
 # Start app
-CMD /bin/sh -c "until npm run prisma:prod; do sleep 5; done && node dist/src/Index.js"
+CMD /bin/sh -c "./wait-for.sh yuna-database:3306 -- npx prisma migrate deploy --preview-feature && npm run start:prod"
