@@ -20,8 +20,8 @@ CREATE TABLE `UserGuild` (
     `guildId` VARCHAR(191) NOT NULL,
     `userId` VARCHAR(191) NOT NULL,
     `xp` INTEGER NOT NULL DEFAULT 0,
-    `level` INTEGER NOT NULL DEFAULT 0,
-    `balance` INTEGER NOT NULL DEFAULT 0,
+    `level` INTEGER NOT NULL DEFAULT 1,
+    `balance` INTEGER NOT NULL DEFAULT 50,
 
     UNIQUE INDEX `UserGuild_userId_guildId_key`(`userId`, `guildId`),
     PRIMARY KEY (`id`)

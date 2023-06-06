@@ -1,3 +1,0 @@
--- AlterTable
-ALTER TABLE `userguild` MODIFY `level` INTEGER NOT NULL DEFAULT 1,
-    MODIFY `balance` INTEGER NOT NULL DEFAULT 50;
