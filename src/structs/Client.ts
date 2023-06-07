@@ -24,7 +24,7 @@ export class ExtendedClient extends Client {
             type: ActivityType.Listening
         }],
         status: "dnd"
-    }
+    };
 
     constructor() {
         super({
