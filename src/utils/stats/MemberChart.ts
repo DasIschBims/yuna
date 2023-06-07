@@ -30,14 +30,18 @@ export const memberChart = async (
         y: dates.filter((d) => dayjs(d) <= dayjs(date)).length,
     }));
 
-    let thirtyDaysCount, sevenDaysCount, oneDayCount = data[data.length - 1].y;
+    let thirtyDaysCount = data[data.length - 1].y;
+    let sevenDaysCount = data[data.length - 1].y;
+    let oneDayCount = data[data.length - 1].y;
+
+    const memberCount = guild.members.cache.filter((member) => !member.user.bot).size;
 
     if (data.length >= 30)
-        thirtyDaysCount = data[data.length - 30].y - guild.memberCount + 1;
+        thirtyDaysCount = data[data.length - 30].y - memberCount;
     if (data.length >= 7)
-        sevenDaysCount = data[data.length - 7].y - guild.memberCount + 1;
+        sevenDaysCount = data[data.length - 7].y - memberCount;
     if (data.length >= 1)
-        oneDayCount = data[data.length - 1].y - guild.memberCount + 1;
+        oneDayCount = data[data.length - 1].y - memberCount;
 
     const color = getRandomColor();
 
