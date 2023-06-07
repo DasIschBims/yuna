@@ -15,6 +15,9 @@ FROM dependencies as build
 # Copy app source
 COPY . .
 
+# Generate prisma client
+RUN npm run prisma:generate
+
 # Build app
 RUN npm run build
 

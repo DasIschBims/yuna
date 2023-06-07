@@ -13,7 +13,8 @@
     "lint": "eslint src --ext .ts",
     "lint:fix": "eslint src --ext .ts --fix",
     "prisma:dev": "npx prisma migrate dev --name init & npx prisma generate",
-    "prisma:deploy": "npx prisma migrate deploy --preview-feature"
+    "prisma:deploy": "npx prisma migrate deploy --preview-feature",
+    "prisma:generate": "npx prisma generate"
   },
   "repository": {
     "type": "git",
