@@ -6,14 +6,22 @@ import {upsertUser} from "../../utils/user/UpsertUser";
 import {getRandomColor} from "../../utils/colors/BrandColor";
 import {EmbedBuilder} from "discord.js";
 
+const cooldowns = new Set();
+
 export default new Event({
     name: "messageCreate",
     once: false,
     run: async function (message) {
         if (message.author.bot) return;
+        if (cooldowns.has(message.author.id)) return;
 
         try {
             await upsertUser(message.member);
+
+            cooldowns.add(message.author.id);
+            setTimeout(() => {
+                cooldowns.delete(message.author.id);
+            }, 60000);
 
             const userData = await prisma.userGuild.findUnique({
                 where: {
