@@ -49,18 +49,26 @@ export default new Event({
                     }
                 });
 
-                await message.reply({
-                    embeds: [
-                        new EmbedBuilder()
-                            .setColor(getRandomColor())
-                            .setTimestamp()
-                            .setTitle("Level Up!")
-                            .setDescription(
-                                `You are now level **${userData.level + 1}**!\n` +
-                                `You need **${getNextLevelGoal(userData.xp + xp - levelGoal)}** xp to reach level **${userData.level + 2}**!`
-                            )
-                    ]
+                const guildData = await prisma.guild.findUnique({
+                    where: {
+                        guildId: message.guild.id
+                    }
                 });
+
+                if (guildData.lvlNotify) {
+                    await message.reply({
+                        embeds: [
+                            new EmbedBuilder()
+                                .setColor(getRandomColor())
+                                .setTimestamp()
+                                .setTitle("Level Up!")
+                                .setDescription(
+                                    `You are now level **${userData.level + 1}**!\n` +
+                                    `You need **${getNextLevelGoal(userData.xp + xp - levelGoal)}** xp to reach level **${userData.level + 2}**!`
+                                )
+                        ]
+                    });
+                }
             } else {
                 await prisma.userGuild.update({
                     where: {
