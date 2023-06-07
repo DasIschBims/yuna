@@ -15,9 +15,6 @@ FROM dependencies as build
 # Copy app source
 COPY . .
 
-# Generate prisma client
-RUN npm run prisma:generate
-
 # Build app
 RUN npm run build
 
@@ -52,5 +49,8 @@ RUN apt-get update && apt-get install -y \
 COPY wait-for.sh ./wait-for.sh
 RUN chmod +x ./wait-for.sh
 
+# Generate prisma client
+RUN npm run prisma:generate
+
 # Start app
-CMD /bin/sh -c "./wait-for.sh yuna-database 3306 && npx prisma migrate deploy --preview-feature && npm run start:prod"
+CMD /bin/sh -c "./wait-for.sh yuna-database 3306 && npx prisma migrate deploy && npm run start:prod"
