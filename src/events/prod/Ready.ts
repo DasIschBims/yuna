@@ -11,6 +11,11 @@ export default new Event({
         Logger.logInfo("Registered " + client.events.size + " events", "Startup");
         Logger.logSuccess("Successfully logged in as " + client.user?.tag, "Startup");
 
-        setPresence(client);
+        setPresence(client, true);
+
+        // Reset presence every 20 minutes to prevent it from disappearing
+        setInterval(() => {
+            setPresence(client, false);
+        }, 20 * 60 * 1000);
     },
 });

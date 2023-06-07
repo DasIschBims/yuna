@@ -4,19 +4,27 @@ import {
     ClientEvents,
     Collection,
     GatewayIntentBits,
-    Partials
+    Partials, PresenceData
 } from "discord.js";
 import {Logger} from "../utils/logging/Logger";
 import {CommandType} from "../types/Command";
 import {EventType} from "../types/Event";
 import * as fs from "fs";
 import path from "path";
+import {ActivityType} from "discord-api-types/v10";
 
 const fileCondition = (fileName: string) => fileName.endsWith(".ts") || fileName.endsWith(".js");
 
 export class ExtendedClient extends Client {
     public commands: Collection<string, CommandType> = new Collection();
     public events: Collection<string, EventType<keyof ClientEvents>> = new Collection();
+    public presenceData: PresenceData = {
+        activities: [{
+            name: "errors and bugs",
+            type: ActivityType.Listening
+        }],
+        status: "dnd"
+    }
 
     constructor() {
         super({
