@@ -9,7 +9,6 @@ CREATE TABLE `User` (
 -- CreateTable
 CREATE TABLE `Guild` (
     `guildId` VARCHAR(191) NOT NULL,
-    `lvlNotify` BOOLEAN NOT NULL DEFAULT false,
 
     UNIQUE INDEX `Guild_guildId_key`(`guildId`),
     PRIMARY KEY (`guildId`)
