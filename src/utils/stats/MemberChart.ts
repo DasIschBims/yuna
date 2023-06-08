@@ -10,7 +10,7 @@ export const memberChart = async (
     guild: Guild,
 ): Promise<MemberChart> => {
     const guildId = guild.id;
-    const guildName = guild.name;
+    const guildName = guild.name.replace(/[^a-zA-Z0-9]/g, "");
 
     const dates = (await guild.members.fetch())
         .filter((member) => !member.user.bot)
