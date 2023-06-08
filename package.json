@@ -48,8 +48,7 @@
     "rimraf": "^5.0.1",
     "socket.io": "^4.6.1",
     "socket.io-client": "^4.6.1",
-    "ts-node-dev": "^2.0.0",
-    "wait-on": "^7.0.1"
+    "ts-node-dev": "^2.0.0"
   },
   "devDependencies": {
     "@types/figlet": "^1.5.5",
