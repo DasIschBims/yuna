@@ -28,7 +28,7 @@ export default new Command({
                     .setTimestamp()
                     .addFields(
                         {
-                            name: "Userinfo",
+                            name: "Details",
                             value: stripIndents`\`\`\`asciidoc
                             = User =
                             • Username :: ${user.username}
