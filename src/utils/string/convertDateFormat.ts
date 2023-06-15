@@ -7,4 +7,4 @@ export const convertDDMMYYYYToMMDDYYYY = (date: string): string => {
         return month + '/' + day + '/' + year;
     }
     return date;
-}
+};
