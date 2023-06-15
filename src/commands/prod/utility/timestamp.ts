@@ -1,6 +1,7 @@
 import {ApplicationCommandOptionType, ApplicationCommandType, EmbedBuilder} from "discord.js";
 import {Command} from "../../../structs/Command";
 import {getRandomColor} from "../../../utils/colors/BrandColor";
+import {convertDDMMYYYYToMMDDYYYY} from "../../../utils/string/convertDateFormat";
 
 export default new Command({
     name: "timestamp",
@@ -63,7 +64,7 @@ export default new Command({
     ],
     run: async ({ interaction }) => {
         const type = interaction.options.get("type").value as string;
-        const date = interaction.options.get("date")?.value as string;
+        const date = convertDDMMYYYYToMMDDYYYY(interaction.options.get("date")?.value as string);
         const time = interaction.options.get("time")?.value as string;
 
         const timestamp = new Date(`${date} ${time}`).getTime();
