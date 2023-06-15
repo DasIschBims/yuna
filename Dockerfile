@@ -42,7 +42,7 @@ RUN apt-get update && apt-get install -y \
     libgif-dev \
     librsvg2-dev \
     g++ \
-    netcat \
+    netcat-traditional \
     && npm install canvas
 
 # Add a script to wait for the database
