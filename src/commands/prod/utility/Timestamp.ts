@@ -74,15 +74,15 @@ export default new Command({
             embeds: [
                 new EmbedBuilder()
                     .setColor(getRandomColor())
-                    .setTimestamp()
                     .addFields(
                         {
-                            name: "Raw Generated Timestamp",
+                            name: "📆 Your Timestamp:",
                             value: `\`\`\`${timestampString}\`\`\``,
                             inline: true
                         }
                     )
-            ]
+            ],
+            ephemeral: true
         });
     }
 });
