@@ -45,7 +45,9 @@ export default new Event({
                     },
                     data: {
                         xp: userData.xp + xp - levelGoal,
-                        level: userData.level + 1
+                        level: {
+                            increment: 1
+                        }
                     }
                 });
 

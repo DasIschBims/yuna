@@ -1,5 +1,5 @@
 import {Guild} from "discord.js";
-import {ChartData, MemberChart} from "../../types/Stats";
+import {MemberChartData, MemberChart} from "../../types/Stats";
 import {getDaysArray} from "./GetDaysArray";
 import {ChartConfiguration} from "chart.js";
 import dayjs from "dayjs";
@@ -25,7 +25,7 @@ export const memberChart = async (
         dayjs().add(1, "day").toDate()
     );
 
-    const data: ChartData[] = startEndDate.map((date) => ({
+    const data: MemberChartData[] = startEndDate.map((date) => ({
         x: dayjs(date).toDate(),
         y: dates.filter((d) => dayjs(d) <= dayjs(date)).length,
     }));
@@ -84,7 +84,7 @@ export const memberChart = async (
                 }
             }
         }
-    } as ChartConfiguration<'line', ChartData[]>;
+    } as ChartConfiguration<'line', MemberChartData[]>;
 
     const image = await chartJSNodeCanvas.renderToBuffer(
         chartConfig as unknown as ChartConfiguration,

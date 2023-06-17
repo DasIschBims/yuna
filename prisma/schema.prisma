@@ -8,25 +8,26 @@ datasource db {
 }
 
 model User {
-  userId    String          @id @unique
-  guilds       UserGuild[]
+  userId     String      @id @unique
+  guilds     UserGuild[]
 }
 
 model Guild {
-  guildId    String         @id @unique
-  lvlNotify  Boolean        @default(false)
+  guildId    String      @id @unique
+  lvlNotify  Boolean     @default(false)
   guild      UserGuild[]
 }
 
 model UserGuild {
-  id          Int           @id @default(autoincrement())
-  guildId     String
-  userId      String
-  xp          Int           @default(0)
-  level       Int           @default(1)
-  balance     Int           @default(50)
-  user        User          @relation(fields: [userId], references: [userId], onDelete: Cascade)
-  guild       Guild         @relation(fields: [guildId], references: [guildId])
+  id           Int        @id @default(autoincrement())
+  guildId      String
+  userId       String
+  xp           Int        @default(0)
+  level        Int        @default(1)
+  balance      Int        @default(50)
+  messageCount Int        @default(0)
+  user         User       @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  guild        Guild      @relation(fields: [guildId], references: [guildId])
 
   @@unique([userId, guildId], name: "user_guild")
 }
