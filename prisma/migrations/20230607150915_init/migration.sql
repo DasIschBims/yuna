@@ -23,6 +23,7 @@ CREATE TABLE `UserGuild` (
     `xp` INTEGER NOT NULL DEFAULT 0,
     `level` INTEGER NOT NULL DEFAULT 1,
     `balance` INTEGER NOT NULL DEFAULT 50,
+    `messageCount` INTEGER NOT NULL DEFAULT 0,
 
     UNIQUE INDEX `UserGuild_userId_guildId_key`(`userId`, `guildId`),
     PRIMARY KEY (`id`)
