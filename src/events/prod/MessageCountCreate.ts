@@ -25,8 +25,6 @@ export default new Event({
                     }
                 }
             });
-
-            Logger.log(`Message count for ${message.author.tag} incremented`, "MessageCount");
         } catch (error) {
             Logger.logError(error, "MessageCount");
         }

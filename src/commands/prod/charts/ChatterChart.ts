@@ -12,7 +12,7 @@ export default new Command({
         const chart = await chatterChart(interaction.guild);
 
         if (chart.error || !chart) {
-            return await interaction.editReply({
+            return await interaction.reply({
                 embeds: [
                     new EmbedBuilder()
                         .setColor(getRandomColor())
@@ -23,7 +23,7 @@ export default new Command({
             });
         }
 
-        return await interaction.editReply({
+        return await interaction.reply({
             embeds: [
                 new EmbedBuilder()
                     .setColor(chart.color as ColorResolvable)

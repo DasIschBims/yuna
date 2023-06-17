@@ -5,10 +5,9 @@ import {Logger} from "../../utils/logging/Logger";
 
 export default new Event({
     name: "messageDelete",
-    once: true,
+    once: false,
     run: async function (message) {
-        const guildId = message.guild.id;
-        const userId = message.author.id;
+        if (message.author.bot) return;
 
         try {
             await upsertUser(message.member);
@@ -16,8 +15,8 @@ export default new Event({
             await prisma.userGuild.update({
                 where: {
                     user_guild: {
-                        guildId: guildId,
-                        userId: userId
+                        guildId: message.guild.id,
+                        userId: message.author.id
                     }
                 },
                 data: {
