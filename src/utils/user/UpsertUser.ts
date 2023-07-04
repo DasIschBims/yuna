@@ -40,7 +40,9 @@ export const upsertUser = async (
                 userId: userId
             }
         },
-        update: {},
+        update: {
+            guildId: guildId,
+        },
         create: {
             guildId: guildId,
             userId: userId
