@@ -28,7 +28,9 @@ export const upsertUser = async (
         create: {
             guildId: guildId,
         },
-        update: {}
+        update: {
+            guildId: guildId,
+        }
     });
 
     await prisma.userGuild.upsert({
